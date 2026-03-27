@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Cricket Prediction Pro</title>
+
+<style>
+body {
+  margin:0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #000000, #0f2027, #2c5364);
+  color: white;
+  text-align:center;
+}
+
+/* HEADER */
+.header {
+  background: rgba(0,0,0,0.8);
+  padding:15px;
+  font-size:28px;
+  font-weight:bold;
+  letter-spacing:1px;
+  box-shadow:0 0 15px gold;
+}
+
+.header span {
+  color: gold;
+}
+
+/* CARD */
+.card {
+  margin:40px auto;
+  padding:25px;
+  width:90%;
+  max-width:400px;
+  background: rgba(255,255,255,0.05);
+  border-radius:15px;
+  box-shadow:0 0 20px rgba(255,215,0,0.4);
+  backdrop-filter: blur(10px);
+}
+
+/* BUTTON */
+.btn {
+  background: gold;
+  border:none;
+  padding:12px 25px;
+  border-radius:25px;
+  font-weight:bold;
+  cursor:pointer;
+  box-shadow:0 0 15px gold;
+  transition:0.3s;
+}
+
+.btn:hover {
+  transform: scale(1.1);
+}
+
+/* IMAGE */
+img {
+  width:100%;
+  max-width:300px;
+  margin-top:20px;
+  border-radius:10px;
+  display:none;
+  box-shadow:0 0 15px gold;
+}
+
+/* ANIMATION */
+.fade {
+  animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {opacity:0;}
+  to {opacity:1;}
+}
+
+/* FOOTER */
+.footer {
+  margin-top:50px;
+  font-size:14px;
+  opacity:0.7;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+  🏏 <span>Cricket Prediction Pro</span>
+</div>
+
+<div class="card">
+  <h2 id="match">Loading Match...</h2>
+
+  <p id="captain">Loading captain...</p>
+
+  <button class="btn" onclick="showTeam()">View Team 🔥</button>
+
+  <img id="teamImg">
+
+  <h3 id="vip" style="margin-top:20px;">🔒 VIP Locked</h3>
+  <input type="password" id="vipPass" placeholder="Enter VIP Password">
+  <br><br>
+  <button class="btn" onclick="unlockVIP()">Unlock VIP</button>
+</div>
+
+<div class="footer">
+  © 2026 Cricket Prediction | All Rights Reserved
+</div>
+
+<script>
+
+// FAST LOAD SYSTEM (No cache)
+let data = {};
+
+fetch("data.json?time=" + new Date().getTime())
+.then(res => res.json())
+.then(res => {
+  data = res;
+
+  document.getElementById("match").innerHTML = res.match;
+  document.getElementById("captain").innerHTML = "⭐ Captain: " + res.captain;
+});
+
+// SHOW IMAGE
+function showTeam(){
+  let img = document.getElementById("teamImg");
+  img.src = data.image;
+  img.style.display = "block";
+  img.classList.add("fade");
+}
+
+// VIP UNLOCK
+function unlockVIP(){
+  let pass = document.getElementById("vipPass").value;
+
+  if(pass === "VIP123"){
+    document.getElementById("vip").innerHTML = "🔥 " + data.team;
+  } else {
+    document.getElementById("vip").innerHTML = "❌ Wrong Password";
+  }
+}
+
+</script>
+
+</body>
+</html>
